@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>POKEDEX</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            for (var i = 1; i <= 16; i++) {
+                var link = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/" + i + ".png";
+                var imagen = "<img id='" + i + "' class='btnimg' src='" + link + "'>";
+
+                $('#pokemon').append(imagen);
+            }
+
+            $('.btnimg').on('click', function() {
+                var id = $(this).attr("id");
+                var imagen = $(this).attr("src");
+
+                $.get("http://pokeapi.co/api/v2/pokemon/" + id + "/", function(res) {
+                    var html;
+                    html = "<h2>" + res.name + "</h2>";
+                    html += "<img src='" + imagen + "'>"
+
+                    html += "<h4>Tipos</h4>";
+
+                    html += "<ul>";
+
+                    for (tipos of res.types) {
+                        html += "<li>" + tipos.type.name + "</li>";
+                    }
+                    html += "</ul>";
+                    html += "<h4>Ancho</h4>" + "<h4>" + res.weight + "</h4>"
+
+                    html += "</ul>";
+                    html += "<h4>Largo</h4>" + "<h4>" + res.height + "</h4>"
+
+                    $("#pokedex").html(html);
+                }, "json");
+            });
+
+        });
+    </script>
+    <style>
+        img {
+            width: 25%;
+            height: 25%;
+        }
+        
+        body {
+            background-color: black;
+        }
+        
+        #container {
+            width: 960px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        #pokemon {
+            width: 500px;
+            display: inline-block;
+        }
+        
+        #pokedex {
+            width: 250px;
+            height: 450px;
+            float: right;
+            height: 400px;
+            color: white;
+            background-color: black;
+            border: 10px double white;
+            padding: 40px;
+            vertical-align: top;
+            margin-top: 20px;
+            width: 250px;
+            border-style: solid;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="pokemon">
+        </div>
+        <div id="pokedex">
+        </div>
+    </div>
+</body>
+
+</html>
